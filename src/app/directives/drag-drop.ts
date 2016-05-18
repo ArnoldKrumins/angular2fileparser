@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 
 @Directive({
@@ -7,13 +7,17 @@ import {Observable} from 'rxjs/Rx';
 })
 export class DragDropComponent {
 
-private lines:Array<string>;
+@Output() fileDragged: EventEmitter<boolean> = new EventEmitter<boolean>();
+@Output() fileParsed: EventEmitter<string[]> = new EventEmitter<string[]>();
+
+  private lines:Array<string>;
 
 constructor(private el: ElementRef){
 
   this.lines = new Array<string>();
 
-  Observable.fromEvent(this.el.nativeElement, 'mousemove').subscribe((event) => console.log(event));
+  Observable.fromEvent(this.el.nativeElement, 'dragenter').subscribe((event) => console.log(event));
+  Observable.fromEvent(this.el.nativeElement, 'dragover').subscribe((event) => console.log(event));
 
 }
 
