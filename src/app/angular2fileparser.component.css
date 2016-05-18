@@ -4,3 +4,8 @@
   background-color:#8699a4;
   border: dashed black 2px;
 }
+
+.dragging{
+  border: dashed green 4px;
+  background-color: green;
+}

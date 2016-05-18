@@ -7,8 +7,8 @@ import {Observable} from 'rxjs/Rx';
 })
 export class DragDropComponent {
 
-@Output() fileDragged: EventEmitter<boolean> = new EventEmitter<boolean>();
-@Output() fileParsed: EventEmitter<string[]> = new EventEmitter<string[]>();
+@Output() dragging: EventEmitter<boolean> = new EventEmitter<boolean>();
+@Output() parsed: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   private lines:Array<string>;
 
@@ -16,8 +16,14 @@ constructor(private el: ElementRef){
 
   this.lines = new Array<string>();
 
-  Observable.fromEvent(this.el.nativeElement, 'dragenter').subscribe((event) => console.log(event));
-  Observable.fromEvent(this.el.nativeElement, 'dragover').subscribe((event) => console.log(event));
+  Observable.fromEvent(this.el.nativeElement, 'dragenter')
+    .subscribe((event) => this.dragging.emit(true));
+  Observable.fromEvent(this.el.nativeElement, 'dragover')
+    .subscribe((event) => this.dragging.emit(true));
+
+  Observable.fromEvent(this.el.nativeElement, 'drop')
+    .subscribe(() =>
+      console.log('dropped'));
 
 }
 
