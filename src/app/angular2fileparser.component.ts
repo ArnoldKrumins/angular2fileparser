@@ -11,14 +11,16 @@ import {DragDropComponent} from "./directives/drag-drop";
 })
 export class Angular2fileparserAppComponent {
 
-  private dragging:boolean = false;
-  
+  private drag:boolean = true;
+
   constructor(){
-
-
   }
 
 
+  isDragging(value){
+    console.log(value);
+    this.drag = value;
+  }
 
 
 
