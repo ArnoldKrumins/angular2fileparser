@@ -28,7 +28,7 @@ constructor(private el: ElementRef){
 
   parse(event){
     event.preventDefault();
-    return (event.type === 'dragenter' ||  event.type === 'dragover') ? true : false;
+    return (event.type === 'dragenter' ||  event.type === 'dragover'); 
   }
 
 }
