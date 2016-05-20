@@ -1,10 +1,8 @@
 import { Directive, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-// import 'rxjs/add/operator/merge';
-// import 'rxjs/operator/add/';
+import 'rxjs/add/operator/merge';
 
 @Directive({
-  providers: [],
   selector: '[drag-drop]'
 })
 export class DragDropComponent {
@@ -18,21 +16,19 @@ constructor(private el: ElementRef){
 
   this.lines = new Array<string>();
 
-  const dragenter$ = Observable.fromEvent(this.el.nativeElement, 'dragenter')
-    .subscribe(() => true);
-  const dragover$ = Observable.fromEvent(this.el.nativeElement, 'dragover')
-    .subscribe(() => true);
-  const dragleave$ = Observable.fromEvent(this.el.nativeElement, 'dragleave')
-    .subscribe(() => false);
+  const dragenter$ = Observable.fromEvent(this.el.nativeElement, 'dragenter');
+  const dragover$  = Observable.fromEvent(this.el.nativeElement, 'dragover');
+  const dragleave$ = Observable.fromEvent(this.el.nativeElement, 'dragleave');
+  const dragdrop$  = Observable.fromEvent(this.el.nativeElement, 'drop');
 
-  Observable.switchMapTo(Observable.merge(dragenter$, dragover$, dragleave$))
-    .subscribe((x)=> this.dragging.emit(x));
-
-
-  Observable.fromEvent(this.el.nativeElement, 'drop')
-    .subscribe(() =>
-      console.log('dropped'));
+  dragenter$.merge(dragover$, dragleave$,dragdrop$)
+    .subscribe((x)=> this.emit(x));
 
 }
+
+  emit(event){
+    event.preventDefault();
+    this.dragging.emit((event.type === 'dragenter' ||  event.type === 'dragover') ? true : false);
+  }
 
 }
