@@ -22,13 +22,13 @@ constructor(private el: ElementRef){
   const dragdrop$  = Observable.fromEvent(this.el.nativeElement, 'drop');
 
   dragenter$.merge(dragover$, dragleave$,dragdrop$)
-    .subscribe((x)=> this.emit(x));
+    .subscribe((x)=>  this.dragging.emit(this.parse(x)));
 
 }
 
-  emit(event){
+  parse(event){
     event.preventDefault();
-    this.dragging.emit((event.type === 'dragenter' ||  event.type === 'dragover') ? true : false);
+    return (event.type === 'dragenter' ||  event.type === 'dragover') ? true : false;
   }
 
 }
